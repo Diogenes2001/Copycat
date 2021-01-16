@@ -1,2 +1,8 @@
 numpy
 sklearn
+pickle-mixin
+opencv-python
+matplotlib
+Pillow
+flask
+flask-wtf
