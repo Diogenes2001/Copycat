@@ -1,0 +1,18 @@
+{% extends "layouts.html" %}
+{% block content %}
+    <h1>Hey {{ name }}!</h1>
+    <h2>Game Settings:</h2>
+    <h3>Your game session code is: </h3>
+    <h4> {{ random_number }} </h4>
+    <h3>Round Timer: </h3>
+    <select name= colours method="GET" action="/">
+        {% for time in times %}
+            <option value= "{{times}}" SELECTED>{{time}}</option>"
+        {% endfor %}
+    </select>
+    <div class="modal-footer">
+        <a type="button" class="btn btn-primary" href="{{ url_for('game', session=random_number) }}">Start Game</a>
+        <a type="button" class="btn btn-secondary" href="{{ url_for('home') }}">Go Back</a>
+    </div>
+
+{% endblock %}
