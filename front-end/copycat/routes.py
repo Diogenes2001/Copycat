@@ -2,8 +2,7 @@ from flask import render_template, url_for, request, redirect
 from copycat import app
 from copycat.forms import nameForm, timeForm
 import random
-
-
+from copycat.__init__ import api_key, session, opentok
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
@@ -24,6 +23,9 @@ def settings():
 
 @app.route("/game", methods=['GET', 'POST'])
 def game():
-    session = request.args.get('session')
+    key = api_key
+    session_id = session.session_id
+    token = opentok.generate_token(session_id)
+    sessionNr = request.args.get('session')
     time = request.args.get('round_time')
-    return render_template('gamesession.html',session_number=session, round_time=time)
+    return render_template('gamesession.html',session_number=sessionNr, round_time=time, api_key=key, session_id=session_id, token=token)

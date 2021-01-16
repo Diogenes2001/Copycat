@@ -46,7 +46,16 @@
         });
 
     </script>
+    <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+    <script type="text/javascript">
+        var apiKey = '{{ api_key }}';
+        var sessionId = '{{ session_id }}';
+        var token = '{{ token }}';
+    </script>
+    <script src="{{ url_for('static', filename='js/helloworld.js') }}"></script>
     <p>Round </p>
     {{ round_time }}
     {{ session_number }}
+    <div id="publisher"></div>
+    <div id="subscribers"></div>
 {% endblock %}
