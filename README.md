@@ -1,7 +1,6 @@
 # Copycat
 Hack the North++ 2021 project
 
-
 # Running the sample project
 
 Next, download the dependencies using Pip, from the current directory:
