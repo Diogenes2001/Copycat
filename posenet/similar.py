@@ -10,7 +10,7 @@ from findpose import pose
 
 connected_points = [(5,6),(5,7),(6,8),(7,9),(8,10),(11,12),(5,11),(6,12),(11,13),(12,14),(13,15),(14,16)]
 
-data1_kps = pose("test3.png")
+data1_kps = pose("test5.png")
 data2_kps = pose("test4.jpeg")
 
 def angle_length(p1, p2):
@@ -21,7 +21,12 @@ def angle_length(p1, p2):
 
 def generate_values(img_kps):
     img_values = []
+    print(img_kps)
     for point in connected_points:
         img_values.append(angle_length(img_kps[point[0]][:2], img_kps[point[1]][:2]))
     return img_values
 
+original_values = generate_values(data1_kps)
+new_values = generate_values(data2_kps)
+
+print (original_values)

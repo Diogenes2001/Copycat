@@ -94,6 +94,7 @@ def pose(img_path):
     img_input = edit_img(width, height, img_path, input_details)
     img_heatmap, img_offset = process_images(interpreter, img_input, input_details, output_details)
     img_kps = interpret_data(img_input, img_heatmap, img_offset, True)
+    return img_kps
 
 # def run_pose():
 #     test3_kps = pose("test3.png")
