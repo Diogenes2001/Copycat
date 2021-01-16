@@ -53,17 +53,6 @@ def process_images(interpreter, given_input, input_details, output_details):
     return given_heatmaps, given_offsets
 
 def parse_output(heatmap_data,offset_data, threshold):
-
-    '''
-    Input:
-        heatmap_data - hetmaps for an image. Three dimension array
-        offset_data - offset vectors for an image. Three dimension array
-        threshold - probability threshold for the keypoints. Scalar value
-    Output:
-        array with coordinates of the keypoints and flags for those that have
-        low probability
-    '''
-
     joint_num = heatmap_data.shape[-1]
     pose_kps = np.zeros((joint_num,3), np.uint32)
 
@@ -99,11 +88,6 @@ def interpret_data(img_input, img_heatmap, img_offset, show):
     if show:
         cv.waitKey()
 
-# input_show = np.squeeze((input_input.copy()*127.5+127.5)/255.0)
-# input_show = np.array(input_show*255,np.uint8)
-# input_kps = parse_output(input_heatmaps,input_offsets,0.3)
-# cv.imshow("input image", draw_kps(input_show.copy(),input_kps))
-# cv.waitKey()
 def findPose(img_path):
     width, height, input_details, output_details, interpreter = initialize()
     img_input = edit_img(width, height, img_path, input_details)
