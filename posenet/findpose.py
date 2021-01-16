@@ -1,5 +1,4 @@
 import numpy as np
-# import scipy as sp
 from PIL import Image
 import pickle
 import matplotlib.pyplot as plt
@@ -87,16 +86,18 @@ def interpret_data(img_input, img_heatmap, img_offset, show):
     cv.imshow("image", draw_kps(img_show.copy(),img_kps))
     if show:
         cv.waitKey()
-    return img_kps
+    return img_kps, img_show
 
 def pose(img_path):
     width, height, input_details, output_details, interpreter = initialize()
     img_input = edit_img(width, height, img_path, input_details)
     img_heatmap, img_offset = process_images(interpreter, img_input, input_details, output_details)
-    img_kps = interpret_data(img_input, img_heatmap, img_offset, True)
-    return img_kps
+    img_kps, img_show = interpret_data(img_input, img_heatmap, img_offset, True)
+    return img_kps, img_show
 
 # def run_pose():
 #     test3_kps = pose("test3.png")
 #     test4_kps = pose("test4.jpeg")
+#     print (test3_kps)
 #     return test3_kps, test4_kps
+# run_pose()
