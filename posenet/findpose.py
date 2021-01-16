@@ -87,12 +87,15 @@ def interpret_data(img_input, img_heatmap, img_offset, show):
     cv.imshow("image", draw_kps(img_show.copy(),img_kps))
     if show:
         cv.waitKey()
+    return img_kps
 
-def findPose(img_path):
+def pose(img_path):
     width, height, input_details, output_details, interpreter = initialize()
     img_input = edit_img(width, height, img_path, input_details)
     img_heatmap, img_offset = process_images(interpreter, img_input, input_details, output_details)
-    interpret_data(img_input, img_heatmap, img_offset, True)
+    img_kps = interpret_data(img_input, img_heatmap, img_offset, True)
 
-findPose("test3.png")
-findPose("test4.jpeg")
+# def run_pose():
+#     test3_kps = pose("test3.png")
+#     test4_kps = pose("test4.jpeg")
+#     return test3_kps, test4_kps
