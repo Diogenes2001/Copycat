@@ -1,4 +1,52 @@
 {% extends "layouts.html" %}
 {% block content %}
-<p>Round </p>
+
+    <div class="content-section">
+        <h1>Round 1 of 4</h1>
+        Time left = <span id="timer">1:00</span>
+        <button class="btn-theme btn-primary btn" id="reset" title="Reset Timer">
+            Next Person
+        </button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+
+        var upgradeTime = 60; // seconds
+        var seconds = upgradeTime;
+
+        function timer() {
+            var days = Math.floor(seconds / 24 / 60 / 60);
+            var hoursLeft = Math.floor((seconds) - (days * 86400));
+            var hours = Math.floor(hoursLeft / 3600);
+            var minutesLeft = Math.floor((hoursLeft) - (hours * 3600));
+            var minutes = Math.floor(minutesLeft / 60);
+            var remainingSeconds = seconds % 60;
+
+            function pad(n) {
+                return (n < 10 ? "0" + n : n);
+            }
+            document.getElementById('timer').innerHTML = pad(minutes) + ":" + pad(remainingSeconds);
+            if (seconds == 0) {
+                clearInterval(countdownTimer);
+                document.getElementById('timer').innerHTML = "Completed";
+                document.getElementById('reset').style.visibility = 'hidden';
+
+            } else {
+                seconds--;
+            }
+        }
+        var countdownTimer = setInterval('timer()', 1000);
+
+        // function resetTimer() {
+        //     seconds = upgradeTime;
+        // }
+        $("#reset").click(function() {
+            seconds = upgradeTime;
+        });
+
+    </script>
+    <p>Round </p>
+    {{ round_time }}
+    {{ session_number }}
 {% endblock %}
