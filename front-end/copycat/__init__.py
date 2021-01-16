@@ -1,5 +1,5 @@
 from flask import Flask
-from opentok import OpenTok
+from opentok import OpenTok, MediaModes
 import os
 
 app = Flask(__name__)
@@ -13,4 +13,4 @@ except Exception:
     raise Exception("You must define API_KEY and API_SECRET environment variables")
 
 opentok = OpenTok(api_key, api_secret)
-session = opentok.create_session()
+session = opentok.create_session(media_mode=MediaModes.routed)

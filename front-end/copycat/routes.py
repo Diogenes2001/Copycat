@@ -4,6 +4,8 @@ from copycat.forms import nameForm, timeForm
 import random
 from copycat.__init__ import api_key, session, opentok
 
+archiveID = "super secret"
+
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
 def home():
@@ -22,11 +24,21 @@ def settings():
 
 @app.route("/game", methods=['GET', 'POST'])
 def game():
+    global archiveID
     key = api_key
     session_id = session.session_id
     token = opentok.generate_token(session_id)
     sessionNr = request.args.get('session')
     if request.method == "POST":
-
+        print(archiveID)
+        if (archiveID != "super secret"):
+            opentok.stop_archive(archiveID)
+            archive = opentok.get_archive(archiveID)
+            while (archive.status != "available"):
+                print(archive.status)
+                archive = opentok.get_archive(archiveID)
+            print(archive.url)
+        archive = opentok.start_archive(session_id)
         print("it worked")
+        archiveID = archive.id
     return render_template('gamesession.html',session_number=sessionNr, api_key=key, session_id=session_id, token=token)
