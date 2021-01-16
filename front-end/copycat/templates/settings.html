@@ -21,15 +21,6 @@
                     <div class="row">
                         <h5>Your game session code is: {{ random_number }}</h5>
                     </div>
-                    <div class="row">
-                        <h5>Round Timer:
-                            <select name="time_select" style="position: right" id="time_select" method="GET" action="/">
-                                {% for time in times %}
-                                    <option value= "{{times}}" SELECTED>{{time}}</option>"
-                                {% endfor %}
-                            </select>
-                        </h5>
-                    </div>
                 </div>
 
 
@@ -56,7 +47,7 @@
 
         <form method="POST" action="/">
             <div class="modal-footer justify-content-center">
-                <a type="button" class="btn btn-primary btn-theme" href="{{ url_for('game', session=random_number, round_time="60") }}">Start Game</a>
+                <a type="button" class="btn btn-primary btn-theme" href="{{ url_for('game', session=random_number) }}">Start Game</a>
                 <a type="button" class="btn btn-secondary btn-dark" href="{{ url_for('home') }}">Go Back</a>
             </div>
         </form>

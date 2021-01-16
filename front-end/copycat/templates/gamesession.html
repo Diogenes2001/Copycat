@@ -2,47 +2,36 @@
 {% block content %}
 
     <div class="content-section">
-        <h1>Round 1 of 4</h1>
-        Time left = <span id="timer">1:00</span>
-        <button class="btn-theme btn-primary btn" id="reset" title="Reset Timer">
-            Next Person
-        </button>
-    </div>
+        <div class="container">
+            <div class="row-md">
+                <div class="col-md">
+                    <h1>Round <span id="round_number">1</span> of 4</h1>
+                    <h5><span id="timer"></span></h5>
+                    <form method="POST">
+                        <button class="btn-theme btn-primary btn" id="next" title="next" href="#next">
+                        Next Person
+                        </button>
+                    </form>
 
+                </div>
+            </div>
+        </div>
+
+    </div>
+z
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
-
-        var upgradeTime = 60; // seconds
-        var seconds = upgradeTime;
-
-        function timer() {
-            var days = Math.floor(seconds / 24 / 60 / 60);
-            var hoursLeft = Math.floor((seconds) - (days * 86400));
-            var hours = Math.floor(hoursLeft / 3600);
-            var minutesLeft = Math.floor((hoursLeft) - (hours * 3600));
-            var minutes = Math.floor(minutesLeft / 60);
-            var remainingSeconds = seconds % 60;
-
-            function pad(n) {
-                return (n < 10 ? "0" + n : n);
+        var round = 1;
+        var maxRound = 4;
+        $("#next").click(function() {
+            if (round < maxRound){
+                round += 1;
+                document.getElementById('round_number').innerHTML = round.toString();
             }
-            document.getElementById('timer').innerHTML = pad(minutes) + ":" + pad(remainingSeconds);
-            if (seconds == 0) {
-                clearInterval(countdownTimer);
-                document.getElementById('timer').innerHTML = "Completed";
-                document.getElementById('reset').style.visibility = 'hidden';
-
-            } else {
-                seconds--;
+            else{
+                document.getElementById('reset').innerHTML = "Main";
+                }
             }
-        }
-        var countdownTimer = setInterval('timer()', 1000);
-
-        // function resetTimer() {
-        //     seconds = upgradeTime;
-        // }
-        $("#reset").click(function() {
-            seconds = upgradeTime;
         });
 
     </script>
