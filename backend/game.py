@@ -3,7 +3,7 @@ import tempfile
 import cv2
 import numpy as np
 from posenet.findpose import pose
-from verify_action import verify_actions
+from backend.verify_action import verify_actions
 
 FPS = 25
 TAKE_FRAME_EVERY_N_SECONDS = 0.2
@@ -33,10 +33,10 @@ class Game():
         action_success, new_action = verify_actions(past_actions=self.past_actions, seq=np.array(seq))
         if action_success:
             self.past_actions.append(new_action)
-        print(new_action)
         return action_success
 
 
 
-g = Game()
-g.process_video('https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_5mb.mp4')
+# g = Game()
+# g.process_video('https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4')
+# g.process_video('https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4')

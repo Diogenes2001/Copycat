@@ -1,8 +1,8 @@
 from flask import render_template, url_for, request, redirect
-from copycat import app
-from copycat.forms import nameForm, timeForm
+from frontend import app
+from frontend.forms import nameForm, timeForm
 import random
-from copycat.__init__ import api_key, session, opentok
+from frontend.__init__ import api_key, session, opentok, the_game
 
 archiveID = "super secret"
 
@@ -43,7 +43,7 @@ def background_process():
         while (archive.status != "available"):
             print(archive.status)
             archive = opentok.get_archive(archiveID)
-        print(archive.url)
+        the_game.process_video(archive.url)
     archive = opentok.start_archive(session_id)
     print("it worked")
     archiveID = archive.id
