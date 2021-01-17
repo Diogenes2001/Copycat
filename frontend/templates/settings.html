@@ -11,44 +11,40 @@
             document.getElementById('div3').style.visibility = "visible";
         },5200);
     </script>
-    <div class="content-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md">
-                    <div class="row">
-                        <h1>Hey {{ name }}!</h1>
-                    </div>
-                    <div class="row">
-                        <h5>Your game session code is: {{ random_number }}</h5>
-                    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 content-section">
+                <h1>Hey {{ name }}!</h1>
+                <div class="row-md">
+                    <h5>Your game session code is: {{ random_number }}</h5>
                 </div>
-
-
-                <div class="col-md">
-                    <div class="row">
-                        <h1>Players</h1>
-                    </div>
-                    <div class="row">
+            </div>
+            <div class="col-6 col-md-6">
+                <div class="content-section">
+                    <h1>Players</h1>
+                    <div class="row-md">
                         <h5>{{ name }}</h5>
                     </div>
-                    <div class="row" id="div1" style="visibility:hidden;">
+                    <div class="row-md" id="div1" style="visibility:hidden;">
                         <h5>John Doe</h5>
                     </div>
-                    <div class="row"  id="div2" style="visibility:hidden">
+                    <div class="row-md"  id="div2" style="visibility:hidden">
                         <h5>Jane Smith</h5>
                     </div>
-                    <div class="row" id="div3" style="visibility:hidden">
+                    <div class="row-md" id="div3" style="visibility:hidden">
                         <h5>Andy Wright</h5>
                     </div>
-
                 </div>
             </div>
         </div>
 
+
         <form method="POST" action="/">
             <div class="modal-footer justify-content-center">
-                <a type="button" class="btn btn-primary btn-theme" href="{{ url_for('game', session=random_number, ) }}">Start Game</a>
-                <a type="button" class="btn btn-secondary btn-dark" href="{{ url_for('home') }}">Go Back</a>
+                <a type="button" class="btn btn-primary btn-theme" href="{{ url_for('game', name=name, session=random_number) }}">Enter Game Room</a>
+                <a type="button" class="btn btn-secondary btn-dark" href="{{ url_for('home') }}">Cancel</a>
             </div>
         </form>
     </div>
