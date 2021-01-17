@@ -61,31 +61,31 @@ def draw_deviations(img, keypoints, pairs, deviations):
         cv.line(img, (keypoints[pair[0]][1], keypoints[pair[0]][0]), (keypoints[pair[1]][1], keypoints[pair[1]][0]), color=color, lineType=cv.LINE_AA, thickness=1)
 
 # connect some of the points 
-def join_point(img, kps):
-    body_parts = [(5,6),(5,7),(6,8),(7,9),(8,10),(11,12),(5,11),
-                        (6,12),(11,13),(12,14),(13,15),(14,16)]
+# def join_point(img, kps):
+#     body_parts = [(5,6),(5,7),(6,8),(7,9),(8,10),(11,12),(5,11),
+#                         (6,12),(11,13),(12,14),(13,15),(14,16)]
 
-    for part in body_parts:
-        cv.line(img, (kps[part[0]][1], kps[part[0]][0]), (kps[part[1]][1], kps[part[1]][0]), 
-                color=(255,255,255), lineType=cv.LINE_AA, thickness=3)
+#     for part in body_parts:
+#         cv.line(img, (kps[part[0]][1], kps[part[0]][0]), (kps[part[1]][1], kps[part[1]][0]), 
+#                 color=(255,255,255), lineType=cv.LINE_AA, thickness=3)
 
-def draw_skeleton(img_show, img_kps):
-    # Get a zero matrix with the shape of the image
-    img_pose = np.zeros_like(img_show)
+# def draw_skeleton(img_show, img_kps):
+#     # Get a zero matrix with the shape of the image
+#     img_pose = np.zeros_like(img_show)
 
-    # draw a skeleton of the pose to the empty image
-    join_point(img_pose, img_kps[:, :2])
-    # set the new dimensions of the image to reduce the size
-    # buffer = 25 # size of the area around the pose
-    # top_left_y = min(img_kps[5:, 0]) - buffer
-    # top_left_x = min(img_kps[5:, 1]) - buffer
-    # buttom_right_y = max(img_kps[5:, 0]) + buffer
-    # buttom_right_x = max(img_kps[5:, 1]) + buffer
+#     # draw a skeleton of the pose to the empty image
+#     join_point(img_pose, img_kps[:, :2])
+#     # set the new dimensions of the image to reduce the size
+#     # buffer = 25 # size of the area around the pose
+#     # top_left_y = min(img_kps[5:, 0]) - buffer
+#     # top_left_x = min(img_kps[5:, 1]) - buffer
+#     # buttom_right_y = max(img_kps[5:, 0]) + buffer
+#     # buttom_right_x = max(img_kps[5:, 1]) + buffer
 
-    # # crop the pose with new dimensions
-    # img_pose = img_pose[top_left_y:buttom_right_y, top_left_x:buttom_right_x]
-    img_pose = cv.cvtColor(img_pose, cv.COLOR_BGR2GRAY)
-    return img_pose
+#     # # crop the pose with new dimensions
+#     # img_pose = img_pose[top_left_y:buttom_right_y, top_left_x:buttom_right_x]
+#     img_pose = cv.cvtColor(img_pose, cv.COLOR_BGR2GRAY)
+#     return img_pose
 
 def findDeviations():
     original_kps, original_show = pose("test8.jpg")
@@ -98,6 +98,7 @@ def findDeviations():
     draw_deviations(new_show, new_kps, connected_points, deviations)
     cv.imshow("deviations", new_show)
     cv.waitKey()
+    return len(deviations)
 
     # original_pose = draw_skeleton(original_show, original_kps)
     # new_pose = draw_skeleton(new_show, new_kps)
@@ -121,4 +122,4 @@ def findDeviations():
     # return deviations, original_show
 
 # deviations, original_show = findDeviations()
-findDeviations()
+devs = findDeviations()
