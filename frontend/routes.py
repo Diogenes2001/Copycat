@@ -1,6 +1,6 @@
 from flask import render_template, url_for, request, redirect
 from frontend import app
-from frontend.forms import nameForm, timeForm
+from frontend.forms import nameForm, joinForm
 import random
 from frontend.__init__ import api_key, session, opentok, the_game
 
@@ -9,9 +9,12 @@ archiveID = "super secret"
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
 def home():
-    form=nameForm()
+    form = nameForm()
     if form.validate_on_submit():
-        return redirect(url_for('settings', name_input=form.name.data))
+        if form.submitNew.data:
+            return redirect(url_for('settings', name_input=form.name.data))
+        if form.submitJoin.data:
+            return redirect(url_for('join', name_input=form.name.data))
     return render_template("home.html", form=form)
 
 @app.route("/settings", methods=['GET', 'POST'])
@@ -27,7 +30,8 @@ def game():
     session_id = session.session_id
     token = opentok.generate_token(session_id)
     sessionNr = request.args.get('session')
-    return render_template('gamesession.html', session_number=sessionNr, api_key=key, session_id=session_id, token=token)
+    name = request.args.get('name')
+    return render_template('gamesession.html', name=name,session_number=sessionNr, api_key=key, session_id=session_id, token=token)
 
 @app.route('/background_process')
 def background_process():
@@ -45,3 +49,11 @@ def background_process():
     print("it worked")
     archiveID = archive.id
     return ("nothing")
+
+@app.route('/join')
+def join():
+    form = joinForm()
+    name = request.args.get('name_input')
+    if form.validate_on_submit():
+        return redirect(url_for('game'))
+    return render_template('join.html', form=form, name=name)

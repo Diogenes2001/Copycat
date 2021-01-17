@@ -7,8 +7,8 @@ class nameForm(FlaskForm):
     submitNew = SubmitField('New Game', id="new")
     submitJoin = SubmitField('Join Game', id="join")
 
-class timeForm(FlaskForm):
-    time_options =["30sec", '40 sec', '50 sec', '60 sec']
-    time = SelectField("round_time", validators=[DataRequired()], choices=[(i, i) for i in time_options])
-    submitSettings = SubmitField('Start Game')
+class joinForm(FlaskForm):
+    session = StringField('session', validators=[DataRequired(), Length(min=2, max=20)],
+                       render_kw={"placeholder": "Enter the game session code"})
+    submitJoinSession = SubmitField('Join Session', id='joinsession')
 
