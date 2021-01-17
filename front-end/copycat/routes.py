@@ -26,19 +26,25 @@ def settings():
 def game():
     global archiveID
     key = api_key
+    global session_id
     session_id = session.session_id
     token = opentok.generate_token(session_id)
     sessionNr = request.args.get('session')
-    if request.method == "POST":
-        print(archiveID)
-        if (archiveID != "super secret"):
-            opentok.stop_archive(archiveID)
-            archive = opentok.get_archive(archiveID)
-            while (archive.status != "available"):
-                print(archive.status)
-                archive = opentok.get_archive(archiveID)
-            print(archive.url)
-        archive = opentok.start_archive(session_id)
-        print("it worked")
-        archiveID = archive.id
     return render_template('gamesession.html',session_number=sessionNr, api_key=key, session_id=session_id, token=token)
+
+@app.route('/background_process')
+def background_process():
+    global archiveID
+    print ("Hello")
+    print(archiveID)
+    if (archiveID != "super secret"):
+        opentok.stop_archive(archiveID)
+        archive = opentok.get_archive(archiveID)
+        while (archive.status != "available"):
+            print(archive.status)
+            archive = opentok.get_archive(archiveID)
+        print(archive.url)
+    archive = opentok.start_archive(session_id)
+    print("it worked")
+    archiveID = archive.id
+    return ("nothing")
