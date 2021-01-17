@@ -167,7 +167,7 @@ def convert(model_id, model_dir, check=False):
             sess.run(init)
             saver = tf.compat.v1.train.Saver()
 
-            image_ph = tf.placeholder(tf.float32, shape=[1, None, None, 3], name='image')
+            image_ph = tf.compat.v1.placeholder(tf.float32, shape=[1, None, None, 3], name='image')
             outputs = build_network(image_ph, layers, variables)
 
             sess.run(
