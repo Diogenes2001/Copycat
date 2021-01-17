@@ -165,7 +165,7 @@ def convert(model_id, model_dir, check=False):
         init = tf.compat.v1.global_variables_initializer()
         with tf.compat.v1.Session() as sess:
             sess.run(init)
-            saver = tf.train.Saver()
+            saver = tf.compat.v1.train.Saver()
 
             image_ph = tf.placeholder(tf.float32, shape=[1, None, None, 3], name='image')
             outputs = build_network(image_ph, layers, variables)
@@ -182,7 +182,7 @@ def convert(model_id, model_dir, check=False):
                 os.makedirs(os.path.dirname(save_path))
             checkpoint_path = saver.save(sess, save_path, write_state=False)
 
-            tf.train.write_graph(cg, model_dir, "model-%s.pbtxt" % chkpoint)
+            tf.compat.v1.train.write_graph(cg, model_dir, "model-%s.pbtxt" % chkpoint)
 
             # Freeze graph and write our final model file
             freeze_graph(
