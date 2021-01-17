@@ -7,6 +7,7 @@ import re
 from zipfile import ZipFile
 import json
 import os
+import subprocess
 from moviepy.video.io.VideoFileClip import VideoFileClip
 
 MIN_SCORE = 70
@@ -19,7 +20,7 @@ class Game():
         self.last_temp_thing = None
 
     
-    def process_video(self, url, filename):
+    def process_video(self, url, filename=""):
         print(url)
         if re.search(r'\.mp4', url) is not None:
             temp_thing = tempfile.NamedTemporaryFile(prefix='my_video', suffix='.mp4', delete=False)
@@ -54,14 +55,13 @@ class Game():
                 new = video.subclip(0, video.duration - SECONDS_FOR_NEW_ACTION)
                 new.write_videofile(trimmed_video.name, audio_codec='aac')
             temp_pickle = tempfile.NamedTemporaryFile(prefix='lookup', suffix='.pickle', delete=False)
-            os.system('py posenet/keypoints_from_video.py --activity "stuff" --video "' + \
+            subprocess.check_call('py posenet/keypoints_from_video.py --activity "stuff" --video "' + \
                  self.last_path + \
                      '" --lookup "' + temp_pickle.name + '"')
-            os.system('py posenet/start_here.py --activity "stuff" --video "' + \
+            out = subprocess.check_output('py posenet/start_here.py --activity "stuff" --video "' + \
                  trimmed_video.name + \
                      '" --lookup "' + temp_pickle.name + '"')
-            f = open("out.txt", "r")
-            score = float(f.read())
+            score = float(out)
             if score < MIN_SCORE:
                 return False
         self.last_path = video_name

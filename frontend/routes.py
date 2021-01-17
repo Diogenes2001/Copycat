@@ -49,7 +49,7 @@ def background_process():
         while (archive.status != "available"):
             print(archive.status)
             archive = opentok.get_archive(archiveID)
-        the_game.process_video(archive.url)
+        success = the_game.process_video(archive.url)
     archive = opentok.start_archive(session_id, output_mode=OutputModes.individual)
     print("it worked")
     archiveID = archive.id
