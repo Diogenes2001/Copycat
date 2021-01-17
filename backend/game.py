@@ -17,7 +17,7 @@ class Game():
         self.past_actions = []
 
     
-    def process_video(self, url):
+    def process_video(self, url, filename):
         print(url)
         if re.search(r'\.mp4', url) is not None:
             temp_video = tempfile.NamedTemporaryFile(prefix='my_video', suffix='.mp4', delete=False)
@@ -26,7 +26,7 @@ class Game():
         elif re.search(r'\.zip', url) is not None:
             temp_zip = tempfile.NamedTemporaryFile(prefix='my_video', suffix='.zip', delete=False)
             urllib.request.urlretrieve(url, temp_zip.name) 
-            temp_dir = tempfile.TemporaryDirectory(delete=False)
+            temp_dir = tempfile.TemporaryDirectory()
             with ZipFile(temp_zip.name, 'r') as zip_ref:
                 zip_ref.extractall(temp_dir.name)
             for file in os.listdir(temp_dir.name):
@@ -34,8 +34,8 @@ class Game():
                     json_path = os.path.join(temp_dir.name, file)
             with open(json_path) as f:
                 data = json.load(f)
-            # todo: some other way to get video of correct user?
-            video_name = os.path.join(temp_dir.name, data['files'][0]['filename'])
+            # use the filename passed as an argument
+            video_name = os.path.join(temp_dir.name, filename)
             
         elif re.search(r'\.webm', url) is not None:
             # there have been issues with webm with cv2
@@ -64,7 +64,6 @@ class Game():
         if action_success:
             self.past_actions.append(new_action)
         return action_success
-
 
 
 # g = Game()

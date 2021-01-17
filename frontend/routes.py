@@ -1,10 +1,13 @@
 from flask import render_template, url_for, request, redirect
 from frontend import app
 from frontend.forms import nameForm, joinForm
+from opentok import OutputModes
 import random
 from frontend.__init__ import api_key, session, opentok, the_game
 
 archiveID = "super secret"
+nameDict = []
+current = 0
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
@@ -19,6 +22,7 @@ def home():
 
 @app.route("/settings", methods=['GET', 'POST'])
 def settings():
+    global nameDict
     random_number = random.randint(1, 10000000)
     name = request.args.get('name_input')
     return render_template('settings.html', name=name, random_number=random_number,)
@@ -31,6 +35,7 @@ def game():
     token = opentok.generate_token(session_id)
     sessionNr = request.args.get('session')
     name = request.args.get('name')
+    nameDict.append(name)
     return render_template('gamesession.html', name=name,session_number=sessionNr, api_key=key, session_id=session_id, token=token)
 
 @app.route('/background_process')
@@ -45,7 +50,7 @@ def background_process():
             print(archive.status)
             archive = opentok.get_archive(archiveID)
         the_game.process_video(archive.url)
-    archive = opentok.start_archive(session_id)
+    archive = opentok.start_archive(session_id, output_mode=OutputModes.individual)
     print("it worked")
     archiveID = archive.id
     return ("nothing")
