@@ -28,13 +28,7 @@
                         <h5>{{ name }}</h5>
                     </div>
                     <div class="row-md" id="div1" style="visibility:hidden;">
-                        <h5>John Doe</h5>
-                    </div>
-                    <div class="row-md"  id="div2" style="visibility:hidden">
-                        <h5>Jane Smith</h5>
-                    </div>
-                    <div class="row-md" id="div3" style="visibility:hidden">
-                        <h5>Andy Wright</h5>
+                        <h5>Jory</h5>
                     </div>
                 </div>
             </div>
@@ -43,7 +37,7 @@
 
         <form method="POST" action="/">
             <div class="modal-footer justify-content-center">
-                <a type="button" class="btn btn-primary btn-theme" href="{{ url_for('game', name=name, session=random_number) }}">Enter Game Room</a>
+                <a type="button" class="btn btn-primary btn-theme" href="{{ url_for('game', name=name, session_number=random_number) }}">Enter Game Room</a>
                 <a type="button" class="btn btn-secondary btn-dark" href="{{ url_for('home') }}">Cancel</a>
             </div>
         </form>

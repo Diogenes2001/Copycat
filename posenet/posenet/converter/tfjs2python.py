@@ -104,7 +104,7 @@ def build_network(image, layers, variables):
         pw_layer = "Conv2d_" + str(block_id) + "_pointwise"
 
         w = tf.nn.depthwise_conv2d(
-            inputs, _depthwise_weights(dw_layer), stride, 'SAME', rate=dilations, data_format='NHWC')
+            inputs, _depthwise_weights(dw_layer), stride, 'SAME', data_format='NHWC', dilations=dilations)
         w = tf.nn.bias_add(w, _biases(dw_layer))
         w = tf.nn.relu6(w)
 
@@ -116,7 +116,7 @@ def build_network(image, layers, variables):
 
     x = image
     buff = []
-    with tf.variable_scope(None, 'MobilenetV1'):
+    with tf.compat.v1.variable_scope(None, 'MobilenetV1'):
 
         for m in layers:
             stride = [1, m['stride'], m['stride'], 1]
@@ -167,7 +167,7 @@ def convert(model_id, model_dir, check=False):
             sess.run(init)
             saver = tf.compat.v1.train.Saver()
 
-            image_ph = tf.placeholder(tf.float32, shape=[1, None, None, 3], name='image')
+            image_ph = tf.compat.v1.placeholder(tf.float32, shape=[1, None, None, 3], name='image')
             outputs = build_network(image_ph, layers, variables)
 
             sess.run(
