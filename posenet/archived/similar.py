@@ -23,6 +23,7 @@ def generate_values(img_kps):
         img_values.append(angle_length(img_kps[point[0]][:2], img_kps[point[1]][:2]))
     return img_values
 
+
 def matching(original_kp, new_kp, angle_deviation=30, size_deviation=1):
     deviation = []
     angle_diffs = []

@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <title>CopyCat</title>
+</head>
+<body>
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+            <a class="navbar-brand mr-4" href="/">CopyCat</a>
+    </nav>
+</header>
+<main role="main" class="container">
+    {% block content %}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type=text/javascript>
+            $(function() {
+                $('a#next').bind('click', function() {
+                    document.getElementById('button').innerHTML = "Next Round";
+                    $.getJSON('/background_process',
+                        function(data) {
+
+                        });
+                    return false;
+                });
+            });
+
+        </script>
+        <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 content-section">
+                <h5>Your game session code is: {{ session_number }}</h5>
+                <form>
+                </br>
+                    <a href=# id=next><button class='btn btn-primary btn-theme'><span id="button">Start Game</button></a></span>
+                    <a type="button" class="btn btn-secondary btn-dark" href="{{ url_for('home') }}">End Game</a>
+                </form>
+            </div>
+            <div class="col-6 col-md-6">
+                <div class="content-section" id="players">
+                    <h3>Players</h3>
+                    <div class="row-md">
+                        <h5> {{ name }} </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+        <script type="text/javascript">
+            var apiKey = '{{ api_key }}';
+            var sessionId = '{{ session_id }}';
+            var token = '{{ token }}';
+            var playerName = '{{ name }}';
+        </script>
+        <script type="text/javascript">
+            // Initialize an OpenTok Session object
+            var session = OT.initSession(apiKey, sessionId);
+
+            // Initialize a Publisher, and place it into the element with id="publisher"
+            var publisher = OT.initPublisher('publisher', {name: playerName});
+
+            // Attach event handlers
+            session.on({
+
+            // This function runs when session.connect() asynchronously completes
+            sessionConnected: function(event) {
+                // Publish the publisher we initialzed earlier (this will trigger 'streamCreated' on other
+                // clients)
+                session.publish(publisher, function(error) {
+                if (error) {
+                    console.error('Failed to publish', error);
+                }
+                });
+            },
+
+            // This function runs when another client publishes a stream (eg. session.publish())
+            streamCreated: function(event) {
+                // Create a container for a new Subscriber, assign it an id using the streamId, put it inside
+                // the element with id="subscribers"
+                var subContainer = document.createElement('div');
+                subContainer.id = 'stream-' + event.stream.streamId + "-" + event.stream.name;
+                document.getElementById('subscribers').appendChild(subContainer);
+                var div = document.createElement("div");
+                div.class = "row-md";
+                div.innerHTML = event.stream.name;
+                document.getElementById('players').appendChild(div);
+
+
+                // Subscribe to the stream that caused this event, put it inside the container we just made
+                session.subscribe(event.stream, subContainer, function(error) {
+                if (error) {
+                    console.error('Failed to subscribe', error);
+                }
+                });
+            }
+
+            });
+
+            // Connect to the Session using the 'apiKey' of the application and a 'token' for permission
+            session.connect(token, function(error) {
+            if (error) {
+                console.error('Failed to connect', error);
+            }
+            });
+
+        </script>
+        <div id="publisher"></div>
+        <div id="subscribers"></div>
+    {% endblock %}
+</main>
+
+<!-- JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

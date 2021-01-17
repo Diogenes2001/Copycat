@@ -8,7 +8,8 @@ import tflite_runtime.interpreter as tflite
 
 def initialize():
     # load tflite posenet file and allocate tensors
-    mod_path = "posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite"
+    mod_path = "posenet/posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite"
+
 
     interpreter = tflite.Interpreter(model_path=mod_path)
     interpreter.allocate_tensors()
@@ -46,8 +47,9 @@ def process_images(interpreter, given_input, input_details, output_details):
     # Getting rid of the extra dimension
     given_heatmaps = np.squeeze(given_output_data)
     given_offsets = np.squeeze(given_offset_data)
-    print("heatmaps' shape:", given_heatmaps.shape)
-    print("offsets' shape:", given_offsets.shape)
+    # print("heatmaps' shape:", given_heatmaps.shape)
+    # print("offsets' shape:", given_offsets.shape)
+
 
     return given_heatmaps, given_offsets
 
@@ -93,7 +95,7 @@ def pose(img_path):
     img_input = edit_img(width, height, img_path, input_details)
     img_heatmap, img_offset = process_images(interpreter, img_input, input_details, output_details)
     img_kps, img_show = interpret_data(img_input, img_heatmap, img_offset, True)
-    return img_kps, img_show
+    return img_kps
 
 # def run_pose():
 #     test3_kps = pose("test3.png")
@@ -101,3 +103,4 @@ def pose(img_path):
 #     print (test3_kps)
 #     return test3_kps, test4_kps
 # run_pose()
+

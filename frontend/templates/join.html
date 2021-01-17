@@ -1,0 +1,28 @@
+{% extends "layouts.html" %}
+{% block content %}
+    <h1>Welcome {{ name }}!</h1>
+    {#    <img width = "40" height ="40" src="https://media1.giphy.com/media/9VlSM0P5pxSBzzLQs6/source.gif">#}
+    {#    <img width = "40" height ="40" src="https://media4.giphy.com/media/25ImpsogAEx8cCZ40F/giphy.gif">#}
+    {#    <img width = "40" height ="40" src="https://i.gifer.com/DCa.gif">#}
+    {#    <img width = "40" height ="40" src="https://media0.giphy.com/media/WrfykoYecESB6ezIGp/giphy.gif">#}
+    {#    <img width = "40" height ="40" src="https://media0.giphy.com/media/LwHjP76Yblu63OAOci/source.gif">#}
+    {#    <img width = "40" height ="40" src="https://media1.giphy.com/media/9VlSM0P5pxSBzzLQs6/source.gif">#}
+    {#    <img width = "40" height ="40" src="https://media4.giphy.com/media/25ImpsogAEx8cCZ40F/giphy.gif">#}
+
+    <div class="content-section">
+        <form method="POST" action="/">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div class="form-group form-control-sm">
+                    {{ form.session(class="form-control form-control-lg") }}
+                </div>
+            </fieldset>
+            <div class="modal-footer justify-content-center">
+                <div class="form-group">
+                    {{ form.submitJoinSession(class="btn btn-primary btn-theme") }}
+                </div>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
