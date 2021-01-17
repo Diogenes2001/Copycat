@@ -2,7 +2,6 @@ import urllib.request
 import tempfile
 import cv2
 import numpy as np
-from posenet.findpose import pose
 from backend.verify_action import verify_actions
 import re
 from zipfile import ZipFile
