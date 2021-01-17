@@ -23,10 +23,17 @@
         <script type=text/javascript>
             $(function() {
                 $('a#next').bind('click', function() {
+                    if (!sorted) {
+                        names.sort();
+                        sorted = true;
+                        var countdownTimer = setInterval('timer()', 1000);
+                    }
+                    current += 1;
+                    if (current >= names.length) {
+                        current = 0;
+                    }
                     document.getElementById('button').innerHTML = "Next Round";
-                    $.getJSON('/background_process',
-                        function(data) {
-
+                    $.getJSON('/background_process', function(data) {
                         });
                     return false;
                 });
@@ -35,13 +42,14 @@
         </script>
         <div class="container">
         <div class="row">
-            <div class="col-12 col-md-6 content-section">
+            <div class="col-12 col-md-6 content-section" id="info">
                 <h5>Your game session code is: {{ session_number }}</h5>
                 <form>
                 </br>
                     <a href=# id=next><button class='btn btn-primary btn-theme'><span id="button">Start Game</button></a></span>
                     <a type="button" class="btn btn-secondary btn-dark" href="{{ url_for('home') }}">End Game</a>
                 </form>
+                <div id="curPlayer">Start game to see current player here.</div>
             </div>
             <div class="col-6 col-md-6">
                 <div class="content-section" id="players">
@@ -60,6 +68,13 @@
             var sessionId = '{{ session_id }}';
             var token = '{{ token }}';
             var playerName = '{{ name }}';
+            var names = [];
+            var sorted = false;
+            var current = -1;
+
+            function timer() {
+                document.getElementById('curPlayer').innerHTML = names[current];
+            }
         </script>
         <script type="text/javascript">
             // Initialize an OpenTok Session object
@@ -88,6 +103,9 @@
                 // the element with id="subscribers"
                 var subContainer = document.createElement('div');
                 subContainer.id = 'stream-' + event.stream.streamId + "-" + event.stream.name;
+
+                $.getJSON('/background_process_addname', { name: event.stream.name, id: event.stream.streamId});
+
                 document.getElementById('subscribers').appendChild(subContainer);
                 var div = document.createElement("div");
                 div.class = "row-md";
@@ -101,6 +119,8 @@
                     console.error('Failed to subscribe', error);
                 }
                 });
+
+                names.push(event.stream.name);
             }
 
             });
