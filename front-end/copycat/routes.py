@@ -12,25 +12,22 @@ def home():
     form=nameForm()
     if form.validate_on_submit():
         return redirect(url_for('settings', name_input=form.name.data))
-    # elif form.validate_on_submit() and  "Search":
-    #     return redirect(url_for('game', name_input=form.name.data))
     return render_template("home.html", form=form)
 
 @app.route("/settings", methods=['GET', 'POST'])
 def settings():
     random_number = random.randint(1, 10000000)
     name = request.args.get('name_input')
-    return render_template('settings.html', name=name, random_number=random_number)
+    return render_template('settings.html', name=name, random_number=random_number,)
 
 @app.route("/game", methods=['GET', 'POST'])
 def game():
-    global archiveID
     key = api_key
     global session_id
     session_id = session.session_id
     token = opentok.generate_token(session_id)
     sessionNr = request.args.get('session')
-    return render_template('gamesession.html',session_number=sessionNr, api_key=key, session_id=session_id, token=token)
+    return render_template('gamesession.html', session_number=sessionNr, api_key=key, session_id=session_id, token=token)
 
 @app.route('/background_process')
 def background_process():
