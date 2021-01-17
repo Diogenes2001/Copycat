@@ -162,8 +162,8 @@ def convert(model_id, model_dir, check=False):
         layers = to_output_strided_layers(mobile_net_arch, output_stride)
         variables = load_variables(chkpoint)
 
-        init = tf.global_variables_initializer()
-        with tf.Session() as sess:
+        init = tf.compat.v1.global_variables_initializer()
+        with tf.compat.v1.Session() as sess:
             sess.run(init)
             saver = tf.train.Saver()
 
