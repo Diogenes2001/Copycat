@@ -60,9 +60,8 @@ def draw_deviations(img, keypoints, pairs, deviations):
             color = (0,255,0)
         cv.line(img, (keypoints[pair[0]][1], keypoints[pair[0]][0]), (keypoints[pair[1]][1], keypoints[pair[1]][0]), color=color, lineType=cv.LINE_AA, thickness=1)
 
-    # connect some of the points 
+# connect some of the points 
 def join_point(img, kps):
-
     body_parts = [(5,6),(5,7),(6,8),(7,9),(8,10),(11,12),(5,11),
                         (6,12),(11,13),(12,14),(13,15),(14,16)]
 
@@ -77,49 +76,49 @@ def draw_skeleton(img_show, img_kps):
     # draw a skeleton of the pose to the empty image
     join_point(img_pose, img_kps[:, :2])
     # set the new dimensions of the image to reduce the size
-    buffer = 5 # size of the area around the pose
-    top_left_y = min(img_kps[5:, 0]) - buffer
-    top_left_x = min(img_kps[5:, 1]) - buffer
-    buttom_right_y = max(img_kps[5:, 0]) + buffer
-    buttom_right_x = max(img_kps[5:, 1]) + buffer
+    # buffer = 25 # size of the area around the pose
+    # top_left_y = min(img_kps[5:, 0]) - buffer
+    # top_left_x = min(img_kps[5:, 1]) - buffer
+    # buttom_right_y = max(img_kps[5:, 0]) + buffer
+    # buttom_right_x = max(img_kps[5:, 1]) + buffer
 
-    # crop the pose with new dimensions
-    img_pose = img_pose[top_left_y:buttom_right_y, top_left_x:buttom_right_x]
+    # # crop the pose with new dimensions
+    # img_pose = img_pose[top_left_y:buttom_right_y, top_left_x:buttom_right_x]
     img_pose = cv.cvtColor(img_pose, cv.COLOR_BGR2GRAY)
     return img_pose
 
 def findDeviations():
-    original_kps, original_show = pose("test3.png")
-    new_kps, new_show = pose("test4.jpeg")
+    original_kps, original_show = pose("test8.jpg")
+    new_kps, new_show = pose("test9.jpg")
 
-    # original_values = generate_values(original_kps)
-    # new_values = generate_values(new_kps)
-    # deviations = matching(original_values, new_values)
+    original_values = generate_values(original_kps)
+    new_values = generate_values(new_kps)
+    deviations = matching(original_values, new_values)
 
-    # draw_deviations(new_show, new_kps, connected_points, deviations)
-    # cv.imshow("deviations", new_show)
-    # cv.waitKey()
-
-    original_pose = draw_skeleton(original_show, original_kps)
-    new_pose = draw_skeleton(new_show, new_kps)
-    cv.imshow("pose1", original_pose)
-    cv.imshow("pose2", new_pose)
+    draw_deviations(new_show, new_kps, connected_points, deviations)
+    cv.imshow("deviations", new_show)
     cv.waitKey()
 
-    # the greater the threshold the more exact the pose has to match
-    threshold = 0.1
+    # original_pose = draw_skeleton(original_show, original_kps)
+    # new_pose = draw_skeleton(new_show, new_kps)
+    # cv.imshow("pose1", original_pose)
+    # cv.imshow("pose2", new_pose)
+    # cv.waitKey()
 
-    w, h = new_pose.shape[::-1]
-    res = cv.matchTemplate(new_pose,original_pose, cv.TM_CCOEFF_NORMED)
-    score = res.max()
-    print("score:", score)
+    # # the greater the threshold the more exact the pose has to match
+    # threshold = 0.1
+
+    # w, h = new_pose.shape[::-1]
+    # res = cv.matchTemplate(new_pose,original_pose, cv.TM_CCOEFF_NORMED)
+    # score = res.max()
+    # print("score:", score)
 
     # if score >= threshold:
     #     print("Match")
     # else:
     #     print("Don't match")
 
-    return deviations, original_show
+    # return deviations, original_show
 
-deviations, original_show = findDeviations()
-
+# deviations, original_show = findDeviations()
+findDeviations()
