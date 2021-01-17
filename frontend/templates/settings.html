@@ -47,7 +47,7 @@
 
         <form method="POST" action="/">
             <div class="modal-footer justify-content-center">
-                <a type="button" class="btn btn-primary btn-theme" href="{{ url_for('game', session=random_number) }}">Start Game</a>
+                <a type="button" class="btn btn-primary btn-theme" href="{{ url_for('game', session=random_number, ) }}">Start Game</a>
                 <a type="button" class="btn btn-secondary btn-dark" href="{{ url_for('home') }}">Go Back</a>
             </div>
         </form>

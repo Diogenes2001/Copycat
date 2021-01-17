@@ -19,33 +19,52 @@
 </header>
 <main role="main" class="container">
     {% block content %}
-        <div class="content-section">
+        <div class="content-section col-md-6">
             <div class="container">
                 <div class="row-md">
                     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
                     <script type=text/javascript>
                         $(function() {
-                            $('a#test').bind('click', function() {
+                            $('a#next').bind('click', function() {
+                                document.getElementById('button').innerHTML = "Next Round";
                                 $.getJSON('/background_process',
                                     function(data) {
-                                        //do nothing
+
                                     });
                                 return false;
                             });
                         });
+
                     </script>
-
-
-                    //button
-                    <div class='container'>
-                        <h3>Test</h3>
+                    <h5>Your game session code is: {{ session_number }}</h5>
+                    <div class="col-md">
                         <form>
-                            <a href=# id=test><button class='btn btn-default'>Test</button></a>
+                            <a href=# id=next><button class='btn btn-primary btn-theme'><span id="button">Start Game</button></a></span>
+                            <a type="button" class="btn btn-secondary btn-dark" href="{{ url_for('home') }}">End Game</a>
                         </form>
-
                     </div>
                 </div>
             </div>
+        </div>
+        </div>
+        <div class="col-md-4">
+            <div class="content-section">
+                <h3>Players</h3>
+
+                <div class="row-md">
+                   <h5> variable_name_here </h5>
+                </div>
+                <div class="row-md">
+                    <h5>John Doe</h5>
+                </div>
+                <div class="row-md">
+                    <h5>Jane Smith</h5>
+                </div>
+                <div class="row-md">
+                    <h5>Andy Wright</h5>
+                </div>
+            </div>
+        </div>
         </div>
         <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
         <script type="text/javascript">
@@ -54,8 +73,6 @@
             var token = '{{ token }}';
         </script>
         <script src="{{ url_for('static', filename='js/helloworld.js') }}"></script>
-        <p>Round </p>
-        {{ session_number }}
         <div id="publisher"></div>
         <div id="subscribers"></div>
     {% endblock %}
