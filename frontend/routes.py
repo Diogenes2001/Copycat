@@ -34,7 +34,7 @@ def game():
     global session_id
     session_id = session.session_id
     token = opentok.generate_token(session_id)
-    sessionNr = request.args.get('session')
+    sessionNr = request.args.get('session_number')
     name = request.args.get('name')
     nameDict.append(name)
     return render_template('gamesession.html', name=name,session_number=sessionNr, api_key=key, session_id=session_id, token=token)
@@ -74,10 +74,10 @@ def background_process_addname():
     print(nameDictionary)
     return nameDict[current]
 
-@app.route('/join')
+@app.route('/join', methods=['GET', 'POST'])
 def join():
     form = joinForm()
     name = request.args.get('name_input')
     if form.validate_on_submit():
-        return redirect(url_for('game'))
+        return redirect(url_for('game', name=name, session_number=form.session.data))
     return render_template('join.html', form=form, name=name)
