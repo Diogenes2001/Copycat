@@ -20,5 +20,5 @@ args = vars(ap.parse_args())
 g = get_Score(args["lookup"])
 
 final_score,score_list = g.calculate_Score(args["video"],args["activity"])
-print("Total Score : ",final_score)
-print("Score List : ",score_list)
+f = open("out.txt", "w")
+f.write(str(final_score))
