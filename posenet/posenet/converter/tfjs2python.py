@@ -104,7 +104,7 @@ def build_network(image, layers, variables):
         pw_layer = "Conv2d_" + str(block_id) + "_pointwise"
 
         w = tf.nn.depthwise_conv2d(
-            inputs, _depthwise_weights(dw_layer), stride, 'SAME', rate=dilations, data_format='NHWC')
+            inputs, _depthwise_weights(dw_layer), stride, 'SAME', data_format='NHWC', dilations=dilations)
         w = tf.nn.bias_add(w, _biases(dw_layer))
         w = tf.nn.relu6(w)
 
