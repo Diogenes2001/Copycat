@@ -11,3 +11,4 @@ class timeForm(FlaskForm):
     time_options =["30sec", '40 sec', '50 sec', '60 sec']
     time = SelectField("round_time", validators=[DataRequired()], choices=[(i, i) for i in time_options])
     submitSettings = SubmitField('Start Game')
+

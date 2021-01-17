@@ -2,8 +2,9 @@ from flask import render_template, url_for, request, redirect
 from copycat import app
 from copycat.forms import nameForm, timeForm
 import random
+from copycat.__init__ import api_key, session, opentok
 
-
+archiveID = "super secret"
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
@@ -19,11 +20,31 @@ def home():
 def settings():
     random_number = random.randint(1, 10000000)
     name = request.args.get('name_input')
-    time_options = ["30 sec", '40 sec', '50 sec', '60 sec']
-    return render_template('settings.html', name=name, random_number=random_number, times=time_options)
+    return render_template('settings.html', name=name, random_number=random_number)
 
 @app.route("/game", methods=['GET', 'POST'])
 def game():
-    session = request.args.get('session')
-    time = request.args.get('round_time')
-    return render_template('gamesession.html',session_number=session, round_time=time)
+    global archiveID
+    key = api_key
+    global session_id
+    session_id = session.session_id
+    token = opentok.generate_token(session_id)
+    sessionNr = request.args.get('session')
+    return render_template('gamesession.html',session_number=sessionNr, api_key=key, session_id=session_id, token=token)
+
+@app.route('/background_process')
+def background_process():
+    global archiveID
+    print ("Hello")
+    print(archiveID)
+    if (archiveID != "super secret"):
+        opentok.stop_archive(archiveID)
+        archive = opentok.get_archive(archiveID)
+        while (archive.status != "available"):
+            print(archive.status)
+            archive = opentok.get_archive(archiveID)
+        print(archive.url)
+    archive = opentok.start_archive(session_id)
+    print("it worked")
+    archiveID = archive.id
+    return ("nothing")

@@ -1,52 +1,69 @@
-{% extends "layouts.html" %}
-{% block content %}
 
-    <div class="content-section">
-        <h1>Round 1 of 4</h1>
-        Time left = <span id="timer">1:00</span>
-        <button class="btn-theme btn-primary btn" id="reset" title="Reset Timer">
-            Next Person
-        </button>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <title>CopyCat</title>
+</head>
+<body>
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+            <a class="navbar-brand mr-4" href="/">CopyCat</a>
+    </nav>
+</header>
+<main role="main" class="container">
+    {% block content %}
+        <div class="content-section">
+            <div class="container">
+                <div class="row-md">
+                    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                    <script type=text/javascript>
+                        $(function() {
+                            $('a#test').bind('click', function() {
+                                $.getJSON('/background_process',
+                                    function(data) {
+                                        //do nothing
+                                    });
+                                return false;
+                            });
+                        });
+                    </script>
 
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript">
 
-        var upgradeTime = 60; // seconds
-        var seconds = upgradeTime;
+                    //button
+                    <div class='container'>
+                        <h3>Test</h3>
+                        <form>
+                            <a href=# id=test><button class='btn btn-default'>Test</button></a>
+                        </form>
 
-        function timer() {
-            var days = Math.floor(seconds / 24 / 60 / 60);
-            var hoursLeft = Math.floor((seconds) - (days * 86400));
-            var hours = Math.floor(hoursLeft / 3600);
-            var minutesLeft = Math.floor((hoursLeft) - (hours * 3600));
-            var minutes = Math.floor(minutesLeft / 60);
-            var remainingSeconds = seconds % 60;
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+        <script type="text/javascript">
+            var apiKey = '{{ api_key }}';
+            var sessionId = '{{ session_id }}';
+            var token = '{{ token }}';
+        </script>
+        <script src="{{ url_for('static', filename='js/helloworld.js') }}"></script>
+        <p>Round </p>
+        {{ session_number }}
+        <div id="publisher"></div>
+        <div id="subscribers"></div>
+    {% endblock %}
+</main>
 
-            function pad(n) {
-                return (n < 10 ? "0" + n : n);
-            }
-            document.getElementById('timer').innerHTML = pad(minutes) + ":" + pad(remainingSeconds);
-            if (seconds == 0) {
-                clearInterval(countdownTimer);
-                document.getElementById('timer').innerHTML = "Completed";
-                document.getElementById('reset').style.visibility = 'hidden';
-
-            } else {
-                seconds--;
-            }
-        }
-        var countdownTimer = setInterval('timer()', 1000);
-
-        // function resetTimer() {
-        //     seconds = upgradeTime;
-        // }
-        $("#reset").click(function() {
-            seconds = upgradeTime;
-        });
-
-    </script>
-    <p>Round </p>
-    {{ round_time }}
-    {{ session_number }}
-{% endblock %}
+<!-- JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
