@@ -116,7 +116,7 @@ def build_network(image, layers, variables):
 
     x = image
     buff = []
-    with tf.variable_scope(None, 'MobilenetV1'):
+    with tf.compat.v1.variable_scope(None, 'MobilenetV1'):
 
         for m in layers:
             stride = [1, m['stride'], m['stride'], 1]
