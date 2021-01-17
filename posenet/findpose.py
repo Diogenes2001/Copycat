@@ -1,5 +1,4 @@
 import numpy as np
-# import scipy as sp
 from PIL import Image
 import pickle
 import matplotlib.pyplot as plt
@@ -10,6 +9,7 @@ import tflite_runtime.interpreter as tflite
 def initialize():
     # load tflite posenet file and allocate tensors
     mod_path = "posenet/posenet_mobilenet_v1_100_257x257_multi_kpt_stripped.tflite"
+
 
     interpreter = tflite.Interpreter(model_path=mod_path)
     interpreter.allocate_tensors()
@@ -50,6 +50,7 @@ def process_images(interpreter, given_input, input_details, output_details):
     # print("heatmaps' shape:", given_heatmaps.shape)
     # print("offsets' shape:", given_offsets.shape)
 
+
     return given_heatmaps, given_offsets
 
 def parse_output(heatmap_data,offset_data, threshold):
@@ -84,21 +85,22 @@ def interpret_data(img_input, img_heatmap, img_offset, show):
     img_show = np.squeeze((img_input.copy()*127.5+127.5)/255.0)
     img_show = np.array(img_show*255,np.uint8)
     img_kps = parse_output(img_heatmap,img_offset,0.3)
-    # cv.imshow("image", draw_kps(img_show.copy(),img_kps))
-    # if show:
-    #     cv.waitKey()
-    return img_kps
+    cv.imshow("image", draw_kps(img_show.copy(),img_kps))
+    if show:
+        cv.waitKey()
+    return img_kps, img_show
 
 def pose(img_path):
     width, height, input_details, output_details, interpreter = initialize()
     img_input = edit_img(width, height, img_path, input_details)
     img_heatmap, img_offset = process_images(interpreter, img_input, input_details, output_details)
-    img_kps = interpret_data(img_input, img_heatmap, img_offset, True)
+    img_kps, img_show = interpret_data(img_input, img_heatmap, img_offset, True)
     return img_kps
 
 # def run_pose():
-#     test3_kps = pose("posenet/test3.png")
-#     test4_kps = pose("posenet/test4.jpeg")
+#     test3_kps = pose("test3.png")
+#     test4_kps = pose("test4.jpeg")
+#     print (test3_kps)
 #     return test3_kps, test4_kps
+# run_pose()
 
-# print(run_pose())
