@@ -35,36 +35,38 @@
                             });
                         });
 
-                    </script>
-                    <h5>Your game session code is: {{ session_number }}</h5>
-                    <div class="col-md">
-                        <form>
-                            <a href=# id=next><button class='btn btn-primary btn-theme'><span id="button">Start Game</button></a></span>
-                            <a type="button" class="btn btn-secondary btn-dark" href="{{ url_for('home') }}">End Game</a>
-                        </form>
+        </script>
+        <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 content-section">
+                <h5>Your game session code is: {{ session_number }}</h5>
+                </br>
+                </br>
+                <form>
+                    <div class="modal-footer justify-content-center">
+
+                        <a href=# id=next><button class='btn btn-primary btn-theme'><span id="button">Start Game</button></a></span>
+                        <a type="button" class="btn btn-secondary btn-dark" href="{{ url_for('home') }}">End Game</a>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6 col-md-6">
+                <div class="content-section">
+                    <h3>Players</h3>
+                    <div class="row-md">
+                        <h5> {{ name }} </h5>
+                    </div>
+                    <div class="row-md">
+                        <h5>John Doe</h5>
+                    </div>
+                    <div class="row-md">
+                        <h5>Jane Smith</h5>
+                    </div>
+                    <div class="row-md">
+                        <h5>Andy Wright</h5>
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
-        <div class="col-md-4">
-            <div class="content-section">
-                <h3>Players</h3>
-
-                <div class="row-md">
-                   <h5> variable_name_here </h5>
-                </div>
-                <div class="row-md">
-                    <h5>John Doe</h5>
-                </div>
-                <div class="row-md">
-                    <h5>Jane Smith</h5>
-                </div>
-                <div class="row-md">
-                    <h5>Andy Wright</h5>
-                </div>
-            </div>
-        </div>
         </div>
         <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
         <script type="text/javascript">

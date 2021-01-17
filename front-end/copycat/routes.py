@@ -27,7 +27,8 @@ def game():
     session_id = session.session_id
     token = opentok.generate_token(session_id)
     sessionNr = request.args.get('session')
-    return render_template('gamesession.html', session_number=sessionNr, api_key=key, session_id=session_id, token=token)
+    name = request.args.get('name_input')
+    return render_template('gamesession.html', name=name,session_number=sessionNr, api_key=key, session_id=session_id, token=token)
 
 @app.route('/background_process')
 def background_process():
@@ -45,3 +46,12 @@ def background_process():
     print("it worked")
     archiveID = archive.id
     return ("nothing")
+
+@app.route('/join', methods=['GET', 'POST'])
+def join():
+    form = joinForm()
+    name = request.args.get('name_input')
+    print(name)
+    if form.validate_on_submit():
+        return redirect(url_for('game', name_input=name, session=form.sessionValue.data))
+    return render_template('join.html', form=form, name=name)

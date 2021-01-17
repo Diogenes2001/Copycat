@@ -10,19 +10,16 @@
     {#    <img width = "40" height ="40" src="https://media4.giphy.com/media/25ImpsogAEx8cCZ40F/giphy.gif">#}
 
     <div class="content-section">
-        <form method="POST" action="/">
+        <form method="POST" action="/join?name_input={{ name }}">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <div class="form-group form-control-sm">
-                    {{ form.name(class="form-control form-control-lg") }}
+                    {{ form.sessionValue(class="form-control form-control-lg") }}
                 </div>
             </fieldset>
             <div class="modal-footer justify-content-center">
-                <div class="form-group">
-                    {{ form.submitJoin(class="btn btn-secondary") }}
-                </div>
+                {{ form.submitJoinSession(class="btn btn-primary btn-theme") }}
             </div>
-
         </form>
     </div>
 {% endblock %}
