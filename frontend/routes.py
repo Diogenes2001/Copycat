@@ -8,6 +8,7 @@ from frontend.__init__ import api_key, session, opentok, the_game
 archiveID = "super secret"
 nameDict = []
 current = 0
+nameDictionary = {}
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
@@ -41,6 +42,7 @@ def game():
 @app.route('/background_process')
 def background_process():
     global archiveID
+    global current
     print ("Hello")
     print(archiveID)
     if (archiveID != "super secret"):
@@ -49,11 +51,28 @@ def background_process():
         while (archive.status != "available"):
             print(archive.status)
             archive = opentok.get_archive(archiveID)
-        the_game.process_video(archive.url)
+        filename = nameDictionary[nameDict[current]] + '.webm'
+        print(filename)
+        the_game.process_video(archive.url, filename)
+        current = current + 1
+        if (current >= len(nameDict)):
+            current = 0
+    else:
+        nameDict.sort()
     archive = opentok.start_archive(session_id, output_mode=OutputModes.individual)
-    print("it worked")
+    print(nameDict[current])
     archiveID = archive.id
-    return ("nothing")
+    return { "players": nameDict }
+
+@app.route('/background_process_addname')
+def background_process_addname():
+    global nameDictionary
+    global current
+    name = request.args.get('name')
+    streamid = request.args.get('id')
+    nameDictionary[name] = streamid
+    print(nameDictionary)
+    return nameDict[current]
 
 @app.route('/join')
 def join():

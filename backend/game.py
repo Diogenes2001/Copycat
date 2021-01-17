@@ -52,7 +52,7 @@ class Game():
             trimmed_video = tempfile.NamedTemporaryFile(prefix='trimmed', suffix='.webm', delete=False)
             with VideoFileClip(video_name) as video:
                 new = video.subclip(0, video.duration - SECONDS_FOR_NEW_ACTION)
-                new.write_videofile(trimmed_video.name, audio_codec='aac')
+                new.write_videofile(trimmed_video.name)
             temp_pickle = tempfile.NamedTemporaryFile(prefix='lookup', suffix='.pickle', delete=False)
             os.system('py posenet/keypoints_from_video.py --activity "stuff" --video "' + \
                  self.last_path + \
