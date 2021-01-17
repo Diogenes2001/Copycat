@@ -26,7 +26,7 @@
                     if (!sorted) {
                         names.sort();
                         sorted = true;
-                        var countdownTimer = setInterval('timer()', 1000);
+                        timer()
                     }
                     current += 1;
                     if (current >= names.length) {
@@ -68,12 +68,13 @@
             var sessionId = '{{ session_id }}';
             var token = '{{ token }}';
             var playerName = '{{ name }}';
-            var names = [];
+            var names = [playerName];
             var sorted = false;
             var current = -1;
 
             function timer() {
-                document.getElementById('curPlayer').innerHTML = names[current];
+                document.getElementById('curPlayer').innerHTML = "The current player is " + names[current];
+                setTimeout(() => timer(), 1000);
             }
         </script>
         <script type="text/javascript">
