@@ -53,7 +53,7 @@ def background_process():
             archive = opentok.get_archive(archiveID)
         filename = nameDictionary[nameDict[current]] + '.webm'
         print(filename)
-        the_game.process_video(archive.url, filename)
+        success = the_game.process_video(archive.url, filename)
         current = current + 1
         if (current >= len(nameDict)):
             current = 0
