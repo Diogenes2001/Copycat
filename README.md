@@ -1,6 +1,8 @@
 # Copycat
 Hack the North++ 2021 project
 
+https://devpost.com/software/copycat-ir98wa
+
 # Running the sample project
 
 Next, download the dependencies using Pip, from the current directory:
